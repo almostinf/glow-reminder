@@ -13,7 +13,7 @@ To work with Telegram bot you need to create `.env` file based on `.env.example`
 make dev-env-up # runs docker containers with the application
 ```
 
-Additionally you will need to upload the code in arduino/main.c to your Arduino NodeMCU with wifi module to run the web server on the Arduino
+Additionally you will need to upload the code in `arduino/main.c` to your Arduino NodeMCU with wifi module to run the web server on the Arduino
 
 ## How to stop?
 
