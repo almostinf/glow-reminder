@@ -1,0 +1,29 @@
+app:
+  name: 'glow_reminder'
+  version: '0.1.0'
+
+bot:
+  pooler_timeout: 10s
+
+http:
+  host: localhost
+  port: 8080
+
+redis:
+  redis_url: 'redis://glow_reminder_redis:6379/0'
+
+postgres:
+  dialect: 'postgres'
+  pool_max: 10
+  pg_url: 'postgres://postgres:root@glow_reminder_postgres:5432/postgres?sslmode=disable'
+  conn_attempts: 10
+  conn_timeout: 1s
+
+scheduler:
+  cycle_duration: 5s
+
+glow_reminder_client:
+  host: 192.168.1.33:80
+
+logger:
+  log_level: 'debug'

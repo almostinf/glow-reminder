@@ -1,0 +1,41 @@
+swagger: '2.0'
+info:
+  description: 'Glow Reminder Server'
+  version: 1.0.7
+  title: Glow Reminder
+  license:
+    name: MIT
+host: localhost
+basePath: /v1
+schemes:
+  - http
+paths:
+  /glow_reminder:
+    post:
+      summary: Add a glow reminder
+      description: ''
+      operationId: glow_reminder
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Glow Reminder object
+          required: true
+          schema:
+            $ref: '#/definitions/GlowReminder'
+      responses:
+        '200':
+          description: successful operation
+        '500':
+          description: Internal Error
+definitions:
+  GlowReminder:
+    type: object
+    properties:
+      colour:
+        type: integer
+      mode:
+        type: integer

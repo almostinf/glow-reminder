@@ -1,0 +1,59 @@
+version: "3.5"
+
+services:
+  glow_reminder:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    container_name: glow_reminder
+    image: glow_reminder
+    env_file:
+      - .env
+    environment:
+      REDIS_URL: "redis://glow_reminder_redis:6379/0"
+      PG_URL: "postgres://postgres:root@glow_reminder_postgres:5432/postgres?sslmode=disable"
+    ports:
+      - 8080:8080
+    depends_on:
+      glow_reminder_postgres:
+        condition: service_healthy
+      glow_reminder_redis:
+        condition: service_healthy
+
+  glow_reminder_postgres:
+    container_name: glow_reminder_postgres
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=postgres
+    volumes:
+      - glow-reminder-pg-data:/var/lib/postgresql/data
+    image: postgres:15-alpine
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 1s
+      timeout: 1s
+      retries: 10
+
+  glow_reminder_redis:
+    container_name: glow_reminder_redis
+    image: redis:7.2.3-alpine3.18
+    volumes:
+      - glow-reminder-redis-data:/data
+    ports:
+      - 6379:6379
+    restart: always
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 1s
+      timeout: 1s
+      retries: 10
+
+volumes:
+  glow-reminder-pg-data:
+    name: glow-reminder-pg-data
+
+  glow-reminder-redis-data:
+    name: glow-reminder-redis-data
